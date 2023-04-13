@@ -2,7 +2,7 @@
 
 public class Messaging: ICommunicationProvider
 {
-    public Task<string> SendWithDelay(int hitsLeft, string route, int delay)
+    public async Task<string> Send(int length, string pingPongName)
     {
         throw new NotImplementedException();
     }

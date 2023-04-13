@@ -2,5 +2,5 @@
 
 public interface ICommunicationProvider
 {
-    public Task<string> SendWithDelay(int hitsLeft, string route, int delay);
+    public Task<string> Send(int length, string pingPongName);
 }

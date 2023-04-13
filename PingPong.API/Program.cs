@@ -7,7 +7,7 @@ builder.Logging.ClearProviders();
 builder.Host.UseSerilog((_, _, configuration) => {
     configuration
         .WriteTo.File(
-            path: "pingpong.jsonl",
+            path: "/logs/apps/pingpong.jsonl",
             flushToDiskInterval: TimeSpan.FromSeconds(10),
             rollingInterval: RollingInterval.Day,
             retainedFileTimeLimit: TimeSpan.FromDays(5),
@@ -17,6 +17,7 @@ builder.Host.UseSerilog((_, _, configuration) => {
         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
         .MinimumLevel.Override("System", LogEventLevel.Error)
         .MinimumLevel.Override("Default", LogEventLevel.Information)
+        .Enrich.WithProperty("instance_name", Faker.NameFaker.FirstName())
         .WriteTo.Console();
 });
 

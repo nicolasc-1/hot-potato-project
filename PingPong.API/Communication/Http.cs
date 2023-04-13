@@ -2,22 +2,17 @@
 
 public class Http : ICommunicationProvider
 {
-    private readonly string endpoint;
-
+    private readonly HttpClient httpClient;
     public Http(string endpoint)
     {
-        this.endpoint = endpoint;
+        this.httpClient = new HttpClient
+        {
+            BaseAddress = new Uri($"http://{endpoint}")
+        };
     }
 
-    public async Task<string> SendWithDelay(int hitsLeft, string route, int delay)
+    public async Task<string> Send(int hitsLeft, string route)
     {
-        var httpClient = new HttpClient
-        {
-            BaseAddress = new Uri($"http://{this.endpoint}")
-        };
-
-        await Task.Delay(delay);
-
-        return await httpClient.GetStringAsync(@$"{route}?hitsLeft={hitsLeft}");
+        return await this.httpClient.GetStringAsync(@$"{route}?hitsLeft={hitsLeft}");
     }
 }

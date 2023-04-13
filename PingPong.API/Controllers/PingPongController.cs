@@ -6,12 +6,10 @@ namespace Ping.API.Controllers;
 [ApiController]
 public class PingPongController : ControllerBase
 {
-    private readonly ILogger<PingPongController> logger;
     private readonly ICommunicationProvider communicationProvider;
 
-    public PingPongController(ILogger<PingPongController> logger)
+    public PingPongController()
     {
-        this.logger = logger;
         this.communicationProvider = 
             GetCommunicationMode() == CommunicationMode.Messaging ?
                 new Messaging() : 
@@ -29,20 +27,24 @@ public class PingPongController : ControllerBase
     }
 
     [HttpGet]
-    [Route("Ping")]
-    public async Task<string> Ping([FromQuery] int hitsLeft)
+    [Route("Play")]
+    public async Task<string> Play([FromQuery] int numberOfExchanges,[FromQuery] int thinkTime)
     {
-        return hitsLeft <= 0 ? 
-            await Task.FromResult("You lost!") : 
-            await this.communicationProvider.SendWithDelay(--hitsLeft, nameof(Pong), 500);
+        return await this.communicationProvider.Send(numberOfExchanges, nameof(PingPong));
     }
     
     [HttpGet]
-    [Route("Pong")]
-    public async Task<string> Pong([FromQuery] int hitsLeft)
+    [Route("PingPong")]
+    public async Task<string> PingPong([FromQuery] int hitsLeft,[FromQuery] int thinkTime)
     {
         return hitsLeft <= 0 ? 
-            await Task.FromResult("You won!"):
-            await this.communicationProvider.SendWithDelay(--hitsLeft, nameof(Ping), 500);
+            await Task.FromResult(new Random().Next(0, 100) > 50 ? "You won!" : "You lost...") :
+            await WaitAndSend(--hitsLeft, nameof(PingPong), thinkTime);
+    }
+
+    private async Task<string> WaitAndSend(int hitsLeft, string route, int thinkTime)
+    {
+        await Task.Delay(thinkTime);
+        return await this.communicationProvider.Send(hitsLeft, route);
     }
 }
