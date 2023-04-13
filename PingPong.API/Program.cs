@@ -10,6 +10,9 @@ builder.Host.UseSerilog((_, _, configuration) => {
             path: "pingpong.jsonl",
             flushToDiskInterval: TimeSpan.FromSeconds(10),
             rollingInterval: RollingInterval.Day,
+            retainedFileTimeLimit: TimeSpan.FromDays(5),
+            retainedFileCountLimit: 5,
+            rollOnFileSizeLimit: false,
             formatter: new RenderedCompactJsonFormatter())
         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
         .MinimumLevel.Override("System", LogEventLevel.Error)
@@ -44,7 +47,7 @@ try
 }
 catch (Exception e)
 {
-    Log.Fatal("A fatal error occured, couldn't recover. Trying to flush log buffer...");
+    Log.Fatal(e, "A fatal error occured, couldn't recover. Trying to flush log buffer...");
     Log.CloseAndFlush();
     Environment.Exit(-1);
 }
