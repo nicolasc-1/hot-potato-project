@@ -9,7 +9,7 @@
       "applicationUrl": "http://localhost:5176",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "MODE": "DirectConnect",
+        "MODE": "Http",
         "ENDPOINT": "localhost:5177"
       }
     },
@@ -21,7 +21,7 @@
       "applicationUrl": "http://localhost:5177",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "MODE": "DirectConnect",
+        "MODE": "Http",
         "ENDPOINT": "localhost:5176"
       }
     }

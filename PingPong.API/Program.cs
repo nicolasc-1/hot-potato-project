@@ -1,7 +1,23 @@
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Host.UseSerilog((_, _, configuration) => {
+    configuration
+        .WriteTo.File(
+            path: "pingpong.jsonl",
+            flushToDiskInterval: TimeSpan.FromSeconds(10),
+            rollingInterval: RollingInterval.Day,
+            formatter: new RenderedCompactJsonFormatter())
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+        .MinimumLevel.Override("System", LogEventLevel.Error)
+        .MinimumLevel.Override("Default", LogEventLevel.Information)
+        .WriteTo.Console();
+});
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -16,10 +32,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+}
+catch (Exception e)
+{
+    Log.Fatal("A fatal error occured, couldn't recover. Trying to flush log buffer...");
+    Log.CloseAndFlush();
+    Environment.Exit(-1);
+}

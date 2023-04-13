@@ -32,7 +32,6 @@ public class PingPongController : ControllerBase
     [Route("Ping")]
     public async Task<string> Ping([FromQuery] int hitsLeft)
     {
-        this.logger.LogInformation("Ping!");
         return hitsLeft <= 0 ? 
             await Task.FromResult("You lost!") : 
             await this.communicationProvider.SendWithDelay(--hitsLeft, nameof(Pong), 500);
@@ -42,7 +41,6 @@ public class PingPongController : ControllerBase
     [Route("Pong")]
     public async Task<string> Pong([FromQuery] int hitsLeft)
     {
-        this.logger.LogInformation("Pong!");
         return hitsLeft <= 0 ? 
             await Task.FromResult("You won!"):
             await this.communicationProvider.SendWithDelay(--hitsLeft, nameof(Ping), 500);
