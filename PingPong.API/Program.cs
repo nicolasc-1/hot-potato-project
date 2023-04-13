@@ -22,7 +22,8 @@ builder.Host.UseSerilog((_, _, configuration) => {
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -48,6 +49,9 @@ try
 catch (Exception e)
 {
     Log.Fatal(e, "A fatal error occured, couldn't recover. Trying to flush log buffer...");
+}
+finally
+{
     Log.CloseAndFlush();
     Environment.Exit(-1);
 }
