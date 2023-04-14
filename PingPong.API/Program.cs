@@ -1,3 +1,4 @@
+using Prometheus;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -38,10 +39,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
-
 app.UseAuthorization();
+app.UseHttpMetrics();
 
 app.MapControllers();
+app.MapMetrics();
+Metrics.DefaultRegistry.SetStaticLabels(new Dictionary<string, string>
+{
+    {"appname", "pingpong"}
+});
 
 try
 {

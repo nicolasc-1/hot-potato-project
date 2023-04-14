@@ -23,7 +23,8 @@ public class PingPongController : ControllerBase
 
     private static CommunicationMode GetCommunicationMode()
     {
-        return Enum.Parse<CommunicationMode>(Environment.GetEnvironmentVariable("MODE") ?? CommunicationMode.Http.ToString());
+        return Enum.Parse<CommunicationMode>(Environment.GetEnvironmentVariable("MODE")
+                                             ?? CommunicationMode.Http.ToString());
     }
 
     [HttpGet]
