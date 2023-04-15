@@ -1,0 +1,71 @@
+server:
+  log_level: debug
+
+logs:
+  configs:
+    - name: default
+      positions:
+        filename: /tmp/positions.yaml
+      clients:
+        - url: 'http://loki:3100/loki/api/v1/push'
+      scrape_configs:
+        - job_name: apps
+          static_configs:
+            - targets:
+                - localhost
+              labels:
+                job: apps-logs
+                __path__: /var/logs/apps/*.jsonl
+
+metrics:
+  global:
+    scrape_interval: 15s
+    remote_write:
+      - url: 'http://prometheus:9090/api/v1/write'
+  
+  configs:
+    - name: default
+      scrape_configs:
+        - job_name: apps
+          static_configs:
+            - targets: [ 'host.docker.internal:5176', 'host.docker.internal:5177' ]
+        
+traces:
+  configs:
+    - name: default
+      receivers:
+        jaeger:
+          protocols:
+            grpc:
+            thrift_http:
+            thrift_binary:
+            thrift_compact:
+        otlp:
+          protocols:
+            http:
+            grpc:
+      attributes:
+        actions:
+          - action: upsert
+            key: env
+            value: prod
+      remote_write:
+        - endpoint: 'tempo:4317'
+          insecure: true
+      batch:
+        timeout: 5s
+        send_batch_size: 100
+      automatic_logging:
+        backend: loki
+        logs_instance_name: default
+        spans: true
+        processes: true
+        roots: true
+      spanmetrics:
+        metrics_instance: tempo
+        
+integrations:
+  agent:
+    enabled: false
+  node_exporter:
+    enabled: true

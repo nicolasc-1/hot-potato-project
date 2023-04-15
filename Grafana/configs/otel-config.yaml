@@ -1,0 +1,20 @@
+receivers:
+ jaeger:
+   protocols:
+     thrift_compact:
+
+processors:
+ batch:
+
+exporters:
+ otlp:
+   endpoint: 'tempo:4317'
+   tls:
+      insecure: true
+
+service:
+ pipelines:
+   traces:
+     receivers: [jaeger]
+     processors: [batch]
+     exporters: [otlp]
