@@ -84,8 +84,8 @@ services:
     volumes:
       - ./configs/grafana.ini:/etc/grafana-config/grafana.ini
       - ./datasources:/etc/grafana/provisioning/datasources
-      - ./dashboards-provisioning:/etc/grafana/provisioning/dashboards
-#      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./dashboards/provisioning:/etc/grafana/provisioning/dashboards
+      - ./dashboards/boards:/var/lib/grafana/dashboards
     ports:
       - "3000:3000"
     networks:
