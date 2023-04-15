@@ -31,7 +31,7 @@ public class PingPongController : ControllerBase
     [Route("Play")]
     public async Task<string> Play([FromQuery] int numberOfExchanges,[FromQuery] int thinkTime)
     {
-        return await this.communicationProvider.Send(numberOfExchanges, nameof(PingPong));
+        return await this.communicationProvider.Send(numberOfExchanges, nameof(PingPong), thinkTime);
     }
     
     [HttpGet]
@@ -46,6 +46,6 @@ public class PingPongController : ControllerBase
     private async Task<string> WaitAndSend(int hitsLeft, string route, int thinkTime)
     {
         await Task.Delay(thinkTime);
-        return await this.communicationProvider.Send(hitsLeft, route);
+        return await this.communicationProvider.Send(hitsLeft, route, thinkTime);
     }
 }

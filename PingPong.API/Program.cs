@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Prometheus;
 using Serilog;
 using Serilog.Events;
+using Serilog.Filters;
 using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
-builder.Host.UseSerilog((_, _, configuration) => {
+builder.Host.UseSerilog((_, _, configuration) =>
+{
     configuration
         .WriteTo.File(
             path: "/logs/apps/pingpong.jsonl",
@@ -19,6 +23,10 @@ builder.Host.UseSerilog((_, _, configuration) => {
         .MinimumLevel.Override("System", LogEventLevel.Error)
         .MinimumLevel.Override("Default", LogEventLevel.Information)
         .Enrich.WithProperty("instance_name", Faker.NameFaker.FirstName())
+        .Filter.ByExcluding(
+            Matching.WithProperty<string>("RequestPath", v =>
+                "/metrics".Equals(v, StringComparison.OrdinalIgnoreCase) ||
+                "/favicon.ico".Equals(v, StringComparison.OrdinalIgnoreCase)))
         .WriteTo.Console();
 });
 
@@ -46,12 +54,16 @@ app.MapControllers();
 app.MapMetrics();
 Metrics.DefaultRegistry.SetStaticLabels(new Dictionary<string, string>
 {
-    {"appname", "pingpong"}
+    { "appname", "pingpong" }
 });
 
 try
 {
-    app.Run();
+    app.Start();
+    Log.Information("App started, listening on {Endpoint}", string.Join(";",
+            app.Services.GetService<IServer>()?.Features.Get<IServerAddressesFeature>()?.Addresses ??
+            throw new InvalidOperationException("Problem getting server information")));
+    app.WaitForShutdown();
 }
 catch (Exception e)
 {

@@ -2,5 +2,5 @@
 
 public interface ICommunicationProvider
 {
-    public Task<string> Send(int length, string pingPongName);
+    public Task<string> Send(int length, string route, int thinkTime);
 }

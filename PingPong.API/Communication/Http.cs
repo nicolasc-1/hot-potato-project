@@ -11,8 +11,8 @@ public class Http : ICommunicationProvider
         };
     }
 
-    public async Task<string> Send(int hitsLeft, string route)
+    public async Task<string> Send(int hitsLeft, string route, int thinkTime)
     {
-        return await this.httpClient.GetStringAsync(@$"{route}?hitsLeft={hitsLeft}");
+        return await this.httpClient.GetStringAsync(@$"{route}?hitsLeft={hitsLeft}&thinkTime={thinkTime}");
     }
 }
