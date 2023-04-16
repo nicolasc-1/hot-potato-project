@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.API", "HotPotato.API\HotPotato.API.csproj", "{51020346-A2F3-4118-A686-8A5200AF2B4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.CLI", "HotPotato.CLI\HotPotato.CLI.csproj", "{BA51B920-A9C4-4E91-BF30-12C1314377ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{51020346-A2F3-4118-A686-8A5200AF2B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51020346-A2F3-4118-A686-8A5200AF2B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51020346-A2F3-4118-A686-8A5200AF2B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA51B920-A9C4-4E91-BF30-12C1314377ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA51B920-A9C4-4E91-BF30-12C1314377ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA51B920-A9C4-4E91-BF30-12C1314377ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA51B920-A9C4-4E91-BF30-12C1314377ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

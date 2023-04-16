@@ -1,3 +1,4 @@
+using Bogus;
 using HotPotato.API.Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -9,10 +10,9 @@ using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var instance = new Instance
-{
-    Name = Faker.NameFaker.FirstName()
-};
+var instance = new Faker<Instance>()
+    .RuleFor(i => i.Name, f => f.Name.FirstName())
+    .Generate();
 
 builder.Logging.ClearProviders();
 builder.Host.UseSerilog((_, _, configuration) =>
