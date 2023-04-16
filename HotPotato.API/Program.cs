@@ -1,3 +1,4 @@
+using HotPotato.API.Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Prometheus;
@@ -7,12 +8,18 @@ using Serilog.Filters;
 using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var instance = new Instance
+{
+    Name = Faker.NameFaker.FirstName()
+};
+
 builder.Logging.ClearProviders();
 builder.Host.UseSerilog((_, _, configuration) =>
 {
     configuration
         .WriteTo.File(
-            path: "/logs/apps/pingpong.jsonl",
+            path: "/logs/apps/hotpotato.jsonl",
             flushToDiskInterval: TimeSpan.FromSeconds(10),
             rollingInterval: RollingInterval.Day,
             retainedFileTimeLimit: TimeSpan.FromDays(5),
@@ -22,7 +29,7 @@ builder.Host.UseSerilog((_, _, configuration) =>
         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
         .MinimumLevel.Override("System", LogEventLevel.Error)
         .MinimumLevel.Override("Default", LogEventLevel.Information)
-        .Enrich.WithProperty("instance_name", Faker.NameFaker.FirstName())
+        .Enrich.WithProperty("instance_name", instance.Name)
         .Filter.ByExcluding(
             Matching.WithProperty<string>("RequestPath", v =>
                 "/metrics".Equals(v, StringComparison.OrdinalIgnoreCase) ||
@@ -32,6 +39,7 @@ builder.Host.UseSerilog((_, _, configuration) =>
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddSingleton(instance);
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -54,7 +62,7 @@ app.MapControllers();
 app.MapMetrics();
 Metrics.DefaultRegistry.SetStaticLabels(new Dictionary<string, string>
 {
-    { "appname", "pingpong" }
+    { "appname", "hotpotato" }
 });
 
 try

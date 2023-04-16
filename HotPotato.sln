@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingPong.API", "PingPong.API\PingPong.API.csproj", "{51020346-A2F3-4118-A686-8A5200AF2B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.API", "HotPotato.API\HotPotato.API.csproj", "{51020346-A2F3-4118-A686-8A5200AF2B4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace Ping.API.Communication;
+﻿namespace HotPotato.API.Communication;
 
 public class Messaging: ICommunicationProvider
 {

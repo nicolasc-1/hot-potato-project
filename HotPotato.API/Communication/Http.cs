@@ -1,4 +1,4 @@
-﻿namespace Ping.API.Communication;
+﻿namespace HotPotato.API.Communication;
 
 public class Http : ICommunicationProvider
 {
@@ -11,8 +11,8 @@ public class Http : ICommunicationProvider
         };
     }
 
-    public async Task<string> Send(int hitsLeft, string route, int thinkTime)
+    public async Task<string> Send(int throwsLeft, string route, int thinkTime)
     {
-        return await this.httpClient.GetStringAsync(@$"{route}?hitsLeft={hitsLeft}&thinkTime={thinkTime}");
+        return await this.httpClient.GetStringAsync(@$"{route}?throwsLeft={throwsLeft}&thinkTime={thinkTime}");
     }
 }
