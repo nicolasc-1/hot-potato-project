@@ -1,4 +1,4 @@
-﻿namespace HotPotato.API.Entities;
+﻿namespace HotPotato.Domain.Entities;
 
 public class Potato
 {

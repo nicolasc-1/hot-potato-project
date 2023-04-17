@@ -1,41 +1,13 @@
-using Bogus;
-using HotPotato.API.Entities;
+using HotPotato.API;
+using HotPotato.Domain.Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Prometheus;
 using Serilog;
-using Serilog.Events;
-using Serilog.Filters;
-using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var instance = new Faker<Instance>()
-    .RuleFor(i => i.Name, f => f.Name.FirstName())
-    .Generate();
-
-builder.Logging.ClearProviders();
-builder.Host.UseSerilog((_, _, configuration) =>
-{
-    configuration
-        .WriteTo.File(
-            path: "/logs/apps/hotpotato.jsonl",
-            flushToDiskInterval: TimeSpan.FromSeconds(10),
-            rollingInterval: RollingInterval.Day,
-            retainedFileTimeLimit: TimeSpan.FromDays(5),
-            retainedFileCountLimit: 5,
-            rollOnFileSizeLimit: false,
-            formatter: new RenderedCompactJsonFormatter())
-        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-        .MinimumLevel.Override("System", LogEventLevel.Error)
-        .MinimumLevel.Override("Default", LogEventLevel.Information)
-        .Enrich.WithProperty("instance_name", instance.Name)
-        .Filter.ByExcluding(
-            Matching.WithProperty<string>("RequestPath", v =>
-                "/metrics".Equals(v, StringComparison.OrdinalIgnoreCase) ||
-                "/favicon.ico".Equals(v, StringComparison.OrdinalIgnoreCase)))
-        .WriteTo.Console();
-});
+var instance = new Instance();
+SerilogConfigurator.Build(builder, instance.Name);
 
 // Add services to the container.
 builder.Services.AddControllers();

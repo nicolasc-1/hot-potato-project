@@ -1,5 +1,5 @@
 using HotPotato.API.Communication;
-using HotPotato.API.Entities;
+using HotPotato.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotPotato.API.Controllers;

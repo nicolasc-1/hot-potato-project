@@ -1,4 +1,4 @@
-﻿using HotPotato.API.Entities;
+﻿using HotPotato.Domain.Entities;
 
 namespace HotPotato.API.Communication;
 
