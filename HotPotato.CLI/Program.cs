@@ -1,3 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine("Hello, World!");
+using HotPotato.CLI;
+using HotPotato.CLI.Entities;
+
+ComposeBuilder.Generate(Stack.FromDefault());

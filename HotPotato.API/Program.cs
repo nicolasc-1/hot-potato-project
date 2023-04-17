@@ -7,7 +7,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var instance = new Instance();
-SerilogConfigurator.Build(builder, instance.Name);
+SerilogBuilder.Build(builder, instance.Name);
 
 // Add services to the container.
 builder.Services.AddControllers();

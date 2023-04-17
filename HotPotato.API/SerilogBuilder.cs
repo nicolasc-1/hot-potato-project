@@ -5,7 +5,7 @@ using Serilog.Formatting.Compact;
 
 namespace HotPotato.API;
 
-public static class SerilogConfigurator
+public static class SerilogBuilder
 {
     public static void Build(WebApplicationBuilder builder, string instanceName)
     {
