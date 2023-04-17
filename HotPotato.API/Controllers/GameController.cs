@@ -30,18 +30,19 @@ public class GameController : ControllerBase
                                              ?? CommunicationMode.Http.ToString());
     }
     
-    [HttpGet]
+    [HttpPost]
     [Route("Throw")]
-    public async Task<string> Throw([FromQuery] int throwsLeft,[FromQuery] int thinkTime)
+    public async Task<string> Throw([FromBody] Potato potato)
     {
-        return throwsLeft <= 0 ? 
+        potato.Tick();
+        return potato.TimeToLive <= 0 ? 
             await Task.FromResult($"{this.instanceName} dropped the potato") :
-            await WaitAndSend(--throwsLeft, nameof(Throw), thinkTime);
+            await WaitAndThrow(nameof(Throw), potato);
     }
 
-    private async Task<string> WaitAndSend(int throwsLeft, string route, int thinkTime)
+    private async Task<string> WaitAndThrow(string route, Potato potato)
     {
-        await Task.Delay(thinkTime);
-        return await this.communicationProvider.Send(throwsLeft, route, thinkTime);
+        await Task.Delay(potato.ThrowDelay);
+        return await this.communicationProvider.Throw(route, potato);
     }
 }

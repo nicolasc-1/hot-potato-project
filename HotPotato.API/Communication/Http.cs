@@ -1,4 +1,6 @@
-﻿namespace HotPotato.API.Communication;
+﻿using HotPotato.API.Entities;
+
+namespace HotPotato.API.Communication;
 
 public class Http : ICommunicationProvider
 {
@@ -11,8 +13,10 @@ public class Http : ICommunicationProvider
         };
     }
 
-    public async Task<string> Send(int throwsLeft, string route, int thinkTime)
+    public async Task<string> Throw(string route, Potato potato)
     {
-        return await this.httpClient.GetStringAsync(@$"{route}?throwsLeft={throwsLeft}&thinkTime={thinkTime}");
+        return await (await this.httpClient.PostAsJsonAsync(route, potato))
+            .Content
+            .ReadAsStringAsync();
     }
 }

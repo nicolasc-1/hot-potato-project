@@ -1,6 +1,8 @@
-﻿namespace HotPotato.API.Communication;
+﻿using HotPotato.API.Entities;
+
+namespace HotPotato.API.Communication;
 
 public interface ICommunicationProvider
 {
-    public Task<string> Send(int length, string route, int thinkTime);
+    public Task<string> Throw(string route, Potato potato);
 }
