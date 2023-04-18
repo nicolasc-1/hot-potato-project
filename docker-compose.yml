@@ -9,7 +9,7 @@ services:
       - "5176:80"
     environment:
       - MODE=Http
-      - ENDPOINT=host.docker.internal:10000
+      - ENDPOINT=envoy:10000
       - INSTANCE_NAME=Calcul
     networks:
       - hot_potato_network
@@ -20,7 +20,7 @@ services:
       dockerfile: HotPotatoApi.Dockerfile
     environment:
       - MODE=Http
-      - ENDPOINT=host.docker.internal:10000
+      - ENDPOINT=envoy:10000
       - INSTANCE_NAME=Rapport
     ports:
       - "5177:80"
@@ -33,7 +33,7 @@ services:
       dockerfile: HotPotatoApi.Dockerfile
     environment:
       - MODE=Http
-      - ENDPOINT=host.docker.internal:10000
+      - ENDPOINT=envoy:10000
       - INSTANCE_NAME=Portefeuille
     ports:
       - "5178:80"
@@ -46,7 +46,7 @@ services:
       dockerfile: HotPotatoApi.Dockerfile
     environment:
       - MODE=Http
-      - ENDPOINT=host.docker.internal:10000
+      - ENDPOINT=envoy:10000
       - INSTANCE_NAME=PFWeb
     ports:
       - "5179:80"
