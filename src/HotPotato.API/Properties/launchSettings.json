@@ -10,7 +10,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "MODE": "Http",
-        "ENDPOINT": "localhost:5177"
+        "ENDPOINT": "localhost:5177",
+        "INSTANCE_NAME": "Manu"
       }
     },
     "direct-2-1": {
@@ -22,7 +23,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "MODE": "Http",
-        "ENDPOINT": "localhost:5176"
+        "ENDPOINT": "localhost:5176",
+        "INSTANCE_NAME": "Nic"
       }
     }
   }

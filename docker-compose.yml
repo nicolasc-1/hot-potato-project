@@ -1,0 +1,72 @@
+﻿version: "3"
+
+services:
+  calcul:
+    build: 
+      context: ./src
+      dockerfile: HotPotatoApi.Dockerfile
+    ports:
+      - "5176:80"
+    environment:
+      - MODE=Http
+      - ENDPOINT=host.docker.internal:10000
+      - INSTANCE_NAME=Calcul
+    networks:
+      - hot_potato_network
+
+  rapport:
+    build:
+      context: ./src
+      dockerfile: HotPotatoApi.Dockerfile
+    environment:
+      - MODE=Http
+      - ENDPOINT=host.docker.internal:10000
+      - INSTANCE_NAME=Rapport
+    ports:
+      - "5177:80"
+    networks:
+      - hot_potato_network
+
+  portefeuille:
+    build:
+      context: ./src
+      dockerfile: HotPotatoApi.Dockerfile
+    environment:
+      - MODE=Http
+      - ENDPOINT=host.docker.internal:10000
+      - INSTANCE_NAME=Portefeuille
+    ports:
+      - "5178:80"
+    networks:
+      - hot_potato_network
+        
+  pfweb:
+    build:
+      context: ./src
+      dockerfile: HotPotatoApi.Dockerfile
+    environment:
+      - MODE=Http
+      - ENDPOINT=host.docker.internal:10000
+      - INSTANCE_NAME=PFWeb
+    ports:
+      - "5179:80"
+    networks:
+      - hot_potato_network
+  
+  envoy:
+    image: envoyproxy/envoy:v1.26-latest
+    ports:
+      - "10000:10000"
+      - "9901:9901"
+    command: [ "/usr/local/bin/envoy", "-c", "/etc/envoy/envoy.yaml", "--log-level", "debug" ]
+    depends_on:
+      - calcul
+      - rapport
+    volumes:
+      - ./Envoy/envoy.yaml:/etc/envoy/envoy.yaml
+    networks:
+      - hot_potato_network
+
+networks:
+  hot_potato_network:
+    driver: bridge

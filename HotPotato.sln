@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.API", "HotPotato.API\HotPotato.API.csproj", "{51020346-A2F3-4118-A686-8A5200AF2B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.API", "src\HotPotato.API\HotPotato.API.csproj", "{51020346-A2F3-4118-A686-8A5200AF2B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.CLI", "HotPotato.CLI\HotPotato.CLI.csproj", "{BA51B920-A9C4-4E91-BF30-12C1314377ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.CLI", "src\HotPotato.CLI\HotPotato.CLI.csproj", "{BA51B920-A9C4-4E91-BF30-12C1314377ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.Domain", "HotPotato.Domain\HotPotato.Domain.csproj", "{87CDFB38-9936-48E9-919E-4274F695725B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotPotato.Domain", "src\HotPotato.Domain\HotPotato.Domain.csproj", "{87CDFB38-9936-48E9-919E-4274F695725B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
