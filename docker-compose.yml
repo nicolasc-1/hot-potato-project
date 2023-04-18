@@ -74,7 +74,111 @@ services:
       - ./Envoy/envoy.yaml:/etc/envoy/envoy.yaml
     networks:
       - hot_potato_network
+        
+  loki:
+    image: grafana/loki:2.6.1
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./Grafana/configs/loki-config.yaml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - grafana
+
+  tempo:
+    image: grafana/tempo:1.5.0
+    container_name: tempo
+    command:
+      - -storage.trace.backend=local
+      - -storage.trace.local.path=/tmp/tempo/traces
+      - -storage.trace.wal.path=/tmp/tempo/wal
+      - -auth.enabled=false
+      - -server.http-listen-port=3200
+    ports:
+      - "3200:3200"
+    networks:
+      - grafana
+
+  prometheus:
+    image: prom/prometheus:v2.39.1
+    container_name: prometheus
+    volumes:
+      - ./Grafana/configs/prometheus-config.yaml:/etc/prometheus/prometheus-config.yaml
+    command:
+      - --config.file=/etc/prometheus/prometheus-config.yaml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --web.console.templates=/etc/prometheus/consoles
+      - --storage.tsdb.retention.time=200h
+      - --web.enable-lifecycle
+      - --web.enable-remote-write-receiver
+    ports:
+      - "9090:9090"
+    networks:
+      - grafana
+
+  node-exporter:
+    image: prom/node-exporter:v1.4.0
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    networks:
+      - grafana
+
+  agent:
+    image: grafana/agent:v0.32.1
+    container_name: grafana-agent
+    volumes:
+      - ./Grafana/configs/agent.yaml:/etc/agent-config/agent.yaml
+      - C:\\logs\\apps:/var/logs/apps
+    entrypoint:
+      - /bin/agent
+      - -config.file=/etc/agent-config/agent.yaml
+      - -metrics.wal-directory=/tmp/agent/wal
+    ports:
+      - "12345:12345"
+    depends_on:
+      - tempo
+      - prometheus
+      - loki
+    networks:
+      - grafana
+
+  grafana:
+    image: grafana/grafana:9.2.2
+    container_name: grafana
+    entrypoint:
+      - /usr/share/grafana/bin/grafana-server
+      - --homepath=/usr/share/grafana
+      - --config=/etc/grafana-config/grafana.ini
+    volumes:
+      - ./Grafana/configs/grafana.ini:/etc/grafana-config/grafana.ini
+      - ./Grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./Grafana/dashboards/provisioning:/etc/grafana/provisioning/dashboards
+      - ./Grafana/dashboards/boards:/var/lib/grafana/dashboards
+    ports:
+      - "3000:3000"
+    networks:
+      - grafana
+
+  opentelemetry-collector:
+    image: otel/opentelemetry-collector:0.63.1
+    container_name: ot-collector
+    command: --config /etc/otel-config.yaml
+    volumes:
+      - ./Grafana/configs/otel-config.yaml:/etc/otel-config.yaml
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "9411:9411"
+    networks:
+      - grafana
 
 networks:
   hot_potato_network:
-    driver: bridge
+  grafana:
