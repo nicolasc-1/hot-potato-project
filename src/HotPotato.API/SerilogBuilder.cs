@@ -14,11 +14,11 @@ public static class SerilogBuilder
         {
             configuration
                 .WriteTo.File(
-                    path: "/logs/apps/hotpotato.jsonl",
+                    path: $"/logs/apps/{instanceName}.jsonl",
                     flushToDiskInterval: TimeSpan.FromSeconds(10),
                     rollingInterval: RollingInterval.Day,
-                    retainedFileTimeLimit: TimeSpan.FromDays(5),
-                    retainedFileCountLimit: 5,
+                    retainedFileTimeLimit: TimeSpan.FromDays(1),
+                    retainedFileCountLimit: 1,
                     rollOnFileSizeLimit: false,
                     formatter: new RenderedCompactJsonFormatter())
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)

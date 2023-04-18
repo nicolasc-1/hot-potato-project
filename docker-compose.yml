@@ -11,6 +11,8 @@ services:
       - MODE=Http
       - ENDPOINT=envoy:10000
       - INSTANCE_NAME=Calcul
+    volumes:
+      - C:\\logs\\apps:/logs/apps
     networks:
       - hot_potato_network
 
@@ -22,6 +24,8 @@ services:
       - MODE=Http
       - ENDPOINT=envoy:10000
       - INSTANCE_NAME=Rapport
+    volumes:
+      - C:\\logs\\apps:/logs/apps
     ports:
       - "5177:80"
     networks:
@@ -35,6 +39,8 @@ services:
       - MODE=Http
       - ENDPOINT=envoy:10000
       - INSTANCE_NAME=Portefeuille
+    volumes:
+      - C:\\logs\\apps:/logs/apps
     ports:
       - "5178:80"
     networks:
@@ -48,6 +54,8 @@ services:
       - MODE=Http
       - ENDPOINT=envoy:10000
       - INSTANCE_NAME=PFWeb
+    volumes:
+      - C:\\logs\\apps:/logs/apps
     ports:
       - "5179:80"
     networks:
