@@ -5,6 +5,7 @@ services:
     build: 
       context: ./src
       dockerfile: HotPotatoApi.Dockerfile
+    container_name: hotpotato-calcul
     ports:
       - "5176:80"
     environment:
@@ -20,6 +21,7 @@ services:
     build:
       context: ./src
       dockerfile: HotPotatoApi.Dockerfile
+    container_name: hotpotato-rapport
     environment:
       - MODE=Http
       - ENDPOINT=envoy:10000
@@ -35,6 +37,7 @@ services:
     build:
       context: ./src
       dockerfile: HotPotatoApi.Dockerfile
+    container_name: hotpotato-portefeuille
     environment:
       - MODE=Http
       - ENDPOINT=envoy:10000
@@ -50,6 +53,7 @@ services:
     build:
       context: ./src
       dockerfile: HotPotatoApi.Dockerfile
+    container_name: hotpotato-pfweb
     environment:
       - MODE=Http
       - ENDPOINT=envoy:10000
@@ -63,6 +67,7 @@ services:
   
   envoy:
     image: envoyproxy/envoy:v1.26-latest
+    container_name: envoy
     ports:
       - "10000:10000"
       - "9901:9901"
