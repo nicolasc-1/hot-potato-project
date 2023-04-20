@@ -10,11 +10,19 @@
 
     <ItemGroup>
       <PackageReference Include="Bogus" Version="34.0.2" />
-      <PackageReference Include="ComposeBuilderDotNet" Version="1.0.4" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\HotPotato.Domain\HotPotato.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Templates\compose.template">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Templates\envoy.template">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

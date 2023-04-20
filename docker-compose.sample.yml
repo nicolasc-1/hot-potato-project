@@ -76,7 +76,7 @@ services:
       - calcul
       - rapport
     volumes:
-      - ./Envoy/envoy.yaml:/etc/envoy/envoy.yaml
+      - ./Envoy/envoy-sample.yaml:/etc/envoy/envoy.yaml
     networks:
       - hot_potato_network
         

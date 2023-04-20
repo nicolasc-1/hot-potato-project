@@ -1,9 +1,14 @@
 ﻿namespace HotPotato.CLI.Entities;
 
-public class PortMapping
+public static class PortMapping
 {
-    public static string Generate()
+    public static List<string> Get(int startingPort, int count)
     {
-        return "8000:80";
+        List<string> portList = new List<string>();
+        for (int i = startingPort; i < startingPort + count; i++)
+        {
+            portList.Add(i.ToString());
+        }
+        return portList;
     }
 }

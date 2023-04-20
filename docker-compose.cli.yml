@@ -1,0 +1,10 @@
+﻿version: "3"
+
+services:
+  cli:
+    build: 
+      context: ./src
+      dockerfile: HotPotatoCli.Dockerfile
+    container_name: hotpotato-cli
+    volumes:
+      - ./:/app/output
