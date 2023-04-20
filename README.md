@@ -32,7 +32,9 @@ Once the stack is up, here's what you can do:
 You can access Grafana here: **localhost:3000**
 
 **Logs**: the API is logging using serilog, with http requests logging activated. Logs are collected with the Grafana Agent and sent to Loki.
+
 **Metrics**: the API provides its metrics on /metrics using the prometheus-net package. The API's metrics are labeled with appname=hotpotato. 
+
 **Traces**: to come...
 
 ### Throw a potato
