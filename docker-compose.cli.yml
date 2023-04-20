@@ -5,6 +5,9 @@ services:
     build: 
       context: ./src
       dockerfile: HotPotatoCli.Dockerfile
+    environment:
+      - NB_INSTANCES=10
+      - ENVOY_PORT=10000
     container_name: hotpotato-cli
     volumes:
       - ./:/app/output

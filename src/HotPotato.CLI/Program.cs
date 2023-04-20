@@ -1,7 +1,13 @@
 ﻿using HotPotato.CLI.Entities;
 
-var proxy = new EnvoyProxy();
-var stack = new Stack(5, proxy);
-var composeFile = stack.BuildComposeTemplate();
-File.WriteAllText("./output/docker-compose.stack.yaml", composeFile);
+var proxy = new EnvoyProxy
+{
+    Port = Environment.GetEnvironmentVariable("ENVOY_PORT") ?? "10000"
+};
+
+var stack = new Stack(
+    int.Parse(Environment.GetEnvironmentVariable("NB_INSTANCES") ?? "5"), 
+    proxy);
+
+File.WriteAllText("./output/docker-compose.stack.yml", stack.BuildComposeTemplate());
 File.WriteAllText("./output/envoy.yaml", proxy.GetConfigYaml(stack.PortMappings));

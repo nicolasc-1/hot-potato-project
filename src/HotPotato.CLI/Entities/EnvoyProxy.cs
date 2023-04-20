@@ -6,7 +6,6 @@ public class EnvoyProxy : ICommunicationNode
 {
     public string Image { get; set; } = "envoyproxy/envoy:v1.26-latest";
     public string Port { get; set; } = "10000";
-
     public string Endpoint => $"envoy:{Port}";
 
     public string GetConfigYaml(List<string> portMappings)
@@ -36,10 +35,10 @@ public class EnvoyProxy : ICommunicationNode
     {
         return @$"
   envoy:
-    image: envoyproxy/{Image}
+    image: {Image}
     container_name: envoy
     ports:
-      - '{Port}:10000'
+      - '{Port}:{Port}'
       - '9901:9901'
     command: [ '/usr/local/bin/envoy', '-c', '/etc/envoy/envoy.yaml', '--log-level', 'debug' ]
     volumes:

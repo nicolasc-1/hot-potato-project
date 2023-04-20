@@ -1,4 +1,4 @@
-﻿namespace HotPotato.CLI;
+﻿namespace HotPotato.CLI.Entities;
 
 public interface ICommunicationNode
 {

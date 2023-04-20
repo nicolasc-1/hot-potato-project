@@ -23,8 +23,6 @@ public class Stack
 
     public string BuildComposeTemplate()
     {
-        string composeTemplate = File.ReadAllText("./Templates/compose.template");
-
         var generatedServices = new StringBuilder();
         for (int i = 0; i < Services.Count; i++)
         {
@@ -32,7 +30,8 @@ public class Stack
         }
 
         generatedServices.Append(CommunicationNode.ToCompose());
+        
+        string composeTemplate = File.ReadAllText("./Templates/compose.template");
         return composeTemplate.Replace("{{ generated_services }}", generatedServices.ToString());
     }
-
 }
