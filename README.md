@@ -5,6 +5,8 @@ Performance testing using a single API replicated several times and bouncing a p
 Currently supported modes:
 - Http with Envoy as a Proxy, configured in round robin
 
+![](./imgs/http-architecture.png)
+
 ## Parameters
 - NB_INSTANCES: number of instances to create for the test
 - MODE: n/a
@@ -28,6 +30,10 @@ Once the stack is up, here's what you can do:
 
 ### Monitoring
 You can access Grafana here: **localhost:3000**
+
+**Logs**: the API is logging using serilog, with http requests logging activated. Logs are collected with the Grafana Agent and sent to Loki.
+**Metrics**: the API provides its metrics on /metrics using the prometheus-net package. The API's metrics are labeled with appname=hotpotato. 
+**Traces**: to come...
 
 ### Throw a potato
 There are 2 ways to throw a potato:
