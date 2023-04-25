@@ -10,4 +10,5 @@ var stack = new Stack(
     proxy);
 
 File.WriteAllText("./output/docker-compose.stack.yml", stack.BuildComposeTemplate());
-File.WriteAllText("./output/envoy.yaml", proxy.GetConfigYaml(stack.PortMappings));
+File.WriteAllText("./output/envoy.yaml", proxy.GetConfigYaml(stack.Services.Select(service => service.Port).ToList()));
+File.WriteAllText("./output/agent.yaml", new GrafanaAgent().GetConfigYaml(stack.Services));

@@ -8,8 +8,9 @@ public class Service
     public string Name { get; set; }
     public string Mode { get; set; }
     public string Endpoint { get; set; }
+    public string Port { get; set; }
 
-    public Service(string endpoint)
+    public Service(string endpoint, string port)
     {
         Name = new Faker<Instance>()
             .RuleFor(i => i.Name, f => f.Name.FirstName().ToLower())
@@ -17,9 +18,10 @@ public class Service
             .Name;
         Mode = "Http";
         Endpoint = endpoint;
+        Port = port;
     }
 
-    public string ToCompose(string portNumber)
+    public string ToCompose()
     {
         return @$"
   {Name}:
@@ -28,7 +30,7 @@ public class Service
       dockerfile: HotPotatoApi.Dockerfile
     container_name: hotpotato-{Name}
     ports:
-      - ""{portNumber}:80""
+      - ""{Port}:80""
     environment:
       - MODE={Mode}
       - ENDPOINT={Endpoint}

@@ -135,7 +135,7 @@ services:
     image: grafana/agent:v0.32.1
     container_name: grafana-agent
     volumes:
-      - ./Grafana/configs/agent.yaml:/etc/agent-config/agent.yaml
+      - ./Grafana/configs/agent.sample.yaml:/etc/agent-config/agent.yaml
       - C:\\logs\\apps:/var/logs/apps
     entrypoint:
       - /bin/agent

@@ -12,7 +12,7 @@ services:
       - ./Grafana/configs/loki-config.yaml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     networks:
-      - grafana
+      - hot_potato_network
 
   tempo:
     image: grafana/tempo:1.5.0
@@ -26,7 +26,7 @@ services:
     ports:
       - "3200:3200"
     networks:
-      - grafana
+      - hot_potato_network
 
   prometheus:
     image: prom/prometheus:v2.39.1
@@ -44,7 +44,7 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - grafana
+      - hot_potato_network
 
   node-exporter:
     image: prom/node-exporter:v1.4.0
@@ -52,13 +52,13 @@ services:
     ports:
       - "9100:9100"
     networks:
-      - grafana
+      - hot_potato_network
 
   agent:
     image: grafana/agent:v0.32.1
     container_name: grafana-agent
     volumes:
-      - ./Grafana/configs/agent.yaml:/etc/agent-config/agent.yaml
+      - ./agent.yaml:/etc/agent-config/agent.yaml
       - C:\\logs\\apps:/var/logs/apps
     entrypoint:
       - /bin/agent
@@ -71,7 +71,7 @@ services:
       - prometheus
       - loki
     networks:
-      - grafana
+      - hot_potato_network
 
   grafana:
     image: grafana/grafana:9.2.2
@@ -88,7 +88,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - grafana
+      - hot_potato_network
 
   opentelemetry-collector:
     image: otel/opentelemetry-collector:0.63.1
@@ -105,8 +105,7 @@ services:
       - "14268:14268"
       - "9411:9411"
     networks:
-      - grafana
+      - hot_potato_network
 
 networks:
   hot_potato_network:
-  grafana:
