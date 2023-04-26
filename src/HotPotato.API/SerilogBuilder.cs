@@ -25,6 +25,7 @@ public static class SerilogBuilder
                 .MinimumLevel.Override("System", LogEventLevel.Error)
                 .MinimumLevel.Override("Default", LogEventLevel.Information)
                 .Enrich.WithProperty("instance_name", instanceName)
+                .Enrich.WithTracingInformation()
                 .Filter.ByExcluding(
                     Matching.WithProperty<string>("RequestPath", v =>
                         "/metrics".Equals(v, StringComparison.OrdinalIgnoreCase) ||

@@ -1,6 +1,8 @@
 using HotPotato.API.Communication;
 using HotPotato.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using ILogger = Serilog.ILogger;
 
 namespace HotPotato.API.Controllers;
 
@@ -8,6 +10,8 @@ namespace HotPotato.API.Controllers;
 public class GameController : ControllerBase
 {
     private readonly ICommunicationProvider communicationProvider;
+    private readonly ILogger logger = Log.Logger.ForContext<GameController>();
+    // private static readonly ActivitySource Source = new ActivitySource(nameof(GameController));
     private readonly string instanceName;
 
     public GameController(Instance instance)
@@ -35,6 +39,8 @@ public class GameController : ControllerBase
     public async Task<string> Throw([FromBody] Potato potato)
     {
         potato.Tick();
+        this.logger.ForContext<GameController>().Information("Test for traces");
+        
         return potato.TimeToLive <= 0 ? 
             await Task.FromResult($"{this.instanceName} dropped the potato") :
             await WaitAndThrow(nameof(Throw), potato);

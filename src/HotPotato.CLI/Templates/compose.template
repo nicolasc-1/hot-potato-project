@@ -15,16 +15,14 @@ services:
       - hot_potato_network
 
   tempo:
-    image: grafana/tempo:1.5.0
+    image: grafana/tempo:2.0.1
     container_name: tempo
-    command:
-      - -storage.trace.backend=local
-      - -storage.trace.local.path=/tmp/tempo/traces
-      - -storage.trace.wal.path=/tmp/tempo/wal
-      - -auth.enabled=false
-      - -server.http-listen-port=3200
+    command: -config.file=/etc/tempo.yaml
+    volumes:
+      - ./Grafana/configs/tempo-config.yaml:/etc/tempo.yaml
     ports:
-      - "3200:3200"
+      - "3200:3200"  # tempo
+      - "4317:4317" # grpc traces
     networks:
       - hot_potato_network
 
@@ -43,14 +41,6 @@ services:
       - --web.enable-remote-write-receiver
     ports:
       - "9090:9090"
-    networks:
-      - hot_potato_network
-
-  node-exporter:
-    image: prom/node-exporter:v1.4.0
-    container_name: node-exporter
-    ports:
-      - "9100:9100"
     networks:
       - hot_potato_network
 
@@ -87,23 +77,6 @@ services:
       - ./Grafana/dashboards/boards:/var/lib/grafana/dashboards
     ports:
       - "3000:3000"
-    networks:
-      - hot_potato_network
-
-  opentelemetry-collector:
-    image: otel/opentelemetry-collector:0.63.1
-    container_name: ot-collector
-    command: --config /etc/otel-config.yaml
-    volumes:
-      - ./Grafana/configs/otel-config.yaml:/etc/otel-config.yaml
-    ports:
-      - "5775:5775/udp"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
-      - "16686:16686"
-      - "14268:14268"
-      - "9411:9411"
     networks:
       - hot_potato_network
 

@@ -13,6 +13,17 @@ datasources:
   basicAuth: false
   isDefault: false
   version: 1
-  editable: false
+  editable: true
   apiVersion: 1
   uid: tempo
+  jsonData:
+    tracesToLogs:
+      datasourceUid: 'loki'
+    serviceMap:
+      datasourceUid: 'prometheus'
+    search:
+      hide: false
+    nodeGraph:
+      enabled: true
+    lokiSearch:
+      datasourceUid: 'loki'

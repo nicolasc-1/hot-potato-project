@@ -48,7 +48,7 @@ services:
       - "5178:80"
     networks:
       - hot_potato_network
-        
+
   pfweb:
     build:
       context: ./src
@@ -64,7 +64,7 @@ services:
       - "5179:80"
     networks:
       - hot_potato_network
-  
+
   envoy:
     image: envoyproxy/envoy:v1.26-latest
     container_name: envoy
@@ -72,9 +72,6 @@ services:
       - "10000:10000"
       - "9901:9901"
     command: [ "/usr/local/bin/envoy", "-c", "/etc/envoy/envoy.yaml", "--log-level", "debug" ]
-    depends_on:
-      - calcul
-      - rapport
     volumes:
       - ./Envoy/envoy-sample.yaml:/etc/envoy/envoy.yaml
     networks:
@@ -89,21 +86,19 @@ services:
       - ./Grafana/configs/loki-config.yaml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     networks:
-      - grafana
+      - hot_potato_network
 
   tempo:
-    image: grafana/tempo:1.5.0
+    image: grafana/tempo:2.0.1
     container_name: tempo
-    command:
-      - -storage.trace.backend=local
-      - -storage.trace.local.path=/tmp/tempo/traces
-      - -storage.trace.wal.path=/tmp/tempo/wal
-      - -auth.enabled=false
-      - -server.http-listen-port=3200
+    command: -config.file=/etc/tempo.yaml
+    volumes:
+      - ./Grafana/configs/tempo-config.yaml:/etc/tempo.yaml
     ports:
-      - "3200:3200"
+      - "3200:3200"  # tempo
+      - "4317:4317" # grpc traces
     networks:
-      - grafana
+      - hot_potato_network
 
   prometheus:
     image: prom/prometheus:v2.39.1
@@ -121,18 +116,10 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - grafana
-
-  node-exporter:
-    image: prom/node-exporter:v1.4.0
-    container_name: node-exporter
-    ports:
-      - "9100:9100"
-    networks:
-      - grafana
+      - hot_potato_network
 
   agent:
-    image: grafana/agent:v0.32.1
+    image: grafana/agent:v0.31.0
     container_name: grafana-agent
     volumes:
       - ./Grafana/configs/agent.sample.yaml:/etc/agent-config/agent.yaml
@@ -141,14 +128,12 @@ services:
       - /bin/agent
       - -config.file=/etc/agent-config/agent.yaml
       - -metrics.wal-directory=/tmp/agent/wal
-    ports:
-      - "12345:12345"
     depends_on:
       - tempo
       - prometheus
       - loki
     networks:
-      - grafana
+      - hot_potato_network
 
   grafana:
     image: grafana/grafana:9.2.2
@@ -165,25 +150,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - grafana
-
-  opentelemetry-collector:
-    image: otel/opentelemetry-collector:0.63.1
-    container_name: ot-collector
-    command: --config /etc/otel-config.yaml
-    volumes:
-      - ./Grafana/configs/otel-config.yaml:/etc/otel-config.yaml
-    ports:
-      - "5775:5775/udp"
-      - "6831:6831/udp"
-      - "6832:6832/udp"
-      - "5778:5778"
-      - "16686:16686"
-      - "14268:14268"
-      - "9411:9411"
-    networks:
-      - grafana
+      - hot_potato_network
 
 networks:
   hot_potato_network:
-  grafana:
