@@ -45,7 +45,7 @@ builder.Services
             .AddAttributes(
                 new KeyValuePair<string, object>[]
                 {
-                    new("host.name", Environment.MachineName)
+                    new("host.name",  instance.Name)
                 })
             .AddEnvironmentVariableDetector());
 
@@ -57,7 +57,7 @@ builder.Services
         
         tracing.AddOtlpExporter(options =>
         {
-            var host = builder.Environment.IsDevelopment() ? "localhost" : "agent";
+            var host = builder.Environment.IsDevelopment() ? "localhost" : "tempo";
             options.Endpoint = new Uri($"http://{host}:4317");
             options.Protocol = OtlpExportProtocol.Grpc;
         });
