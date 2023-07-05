@@ -1,4 +1,4 @@
-﻿namespace HotPotato.API.Communication;
+﻿namespace HotPotato.Communication;
 
 public enum CommunicationMode
 {

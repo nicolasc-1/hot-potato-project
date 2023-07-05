@@ -1,6 +1,8 @@
-﻿using HotPotato.Domain.Entities;
+﻿using System.Net.Http.Json;
+using HotPotato.Domain.Entities;
+using HotPotato.Domain.Interfaces;
 
-namespace HotPotato.API.Communication;
+namespace HotPotato.Communication;
 
 public class Http : ICommunicationProvider
 {

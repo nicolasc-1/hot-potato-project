@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using HotPotato.API;
+using HotPotato.API.Controllers;
 using HotPotato.Domain.Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -63,14 +64,14 @@ builder.Services
         });
 
         // Listen to telemetry coming from GameController
-        // tracing.AddSource(nameof(GameController));
-        // var listener = new ActivityListener
-        // {
-        //     ShouldListenTo = source => source.Name == nameof(GameController),
-        //     SampleUsingParentId = (ref ActivityCreationOptions<string> _) => ActivitySamplingResult.AllData,
-        //     Sample = (ref ActivityCreationOptions<ActivityContext> _) => ActivitySamplingResult.AllData 
-        // };
-        // ActivitySource.AddActivityListener(listener);
+        tracing.AddSource(nameof(GameController));
+        var listener = new ActivityListener
+        {
+            ShouldListenTo = source => source.Name == nameof(GameController),
+            SampleUsingParentId = (ref ActivityCreationOptions<string> _) => ActivitySamplingResult.AllData,
+            Sample = (ref ActivityCreationOptions<ActivityContext> _) => ActivitySamplingResult.AllData 
+        };
+        ActivitySource.AddActivityListener(listener);
     });
 
 var app = builder.Build();

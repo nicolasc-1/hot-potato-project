@@ -1,6 +1,6 @@
 ﻿using HotPotato.Domain.Entities;
 
-namespace HotPotato.API.Communication;
+namespace HotPotato.Domain.Interfaces;
 
 public interface ICommunicationProvider
 {
