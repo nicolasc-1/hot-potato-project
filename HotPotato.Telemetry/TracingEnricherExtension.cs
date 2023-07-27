@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Configuration;
 
-namespace HotPotato.API;
+namespace HotPotato.Telemetry;
 
 public static class TracingEnricherExtension
 {

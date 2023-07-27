@@ -2,7 +2,7 @@
 using Serilog.Core;
 using Serilog.Events;
 
-namespace HotPotato.API;
+namespace HotPotato.Telemetry;
 
 public class TracingEnricher : ILogEventEnricher
 {

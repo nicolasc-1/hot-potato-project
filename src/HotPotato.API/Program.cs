@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Reflection;
-using HotPotato.API;
 using HotPotato.API.Controllers;
 using HotPotato.Domain.Entities;
+using HotPotato.Telemetry;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using OpenTelemetry.Exporter;

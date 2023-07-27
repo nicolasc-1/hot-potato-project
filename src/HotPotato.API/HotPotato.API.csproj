@@ -16,12 +16,13 @@
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
         <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\HotPotato.Communication\HotPotato.Communication.csproj" />
+      <ProjectReference Include="..\..\HotPotato.Telemetry\HotPotato.Telemetry.csproj" />
       <ProjectReference Include="..\HotPotato.Domain\HotPotato.Domain.csproj" />
     </ItemGroup>
 

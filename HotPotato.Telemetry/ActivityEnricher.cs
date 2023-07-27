@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
-namespace HotPotato.API;
+namespace HotPotato.Telemetry;
 
 public static class ActivityEnricher
 {

@@ -1,9 +1,11 @@
-﻿using Serilog;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using Serilog.Events;
 using Serilog.Filters;
 using Serilog.Formatting.Compact;
 
-namespace HotPotato.API;
+namespace HotPotato.Telemetry;
 
 public static class SerilogBuilder
 {
